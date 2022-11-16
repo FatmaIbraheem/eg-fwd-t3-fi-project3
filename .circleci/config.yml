@@ -330,7 +330,7 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      - notify : 
+      - notify: 
           requires: [scan-frontend]
           context: slack
       - deploy-infrastructure:
