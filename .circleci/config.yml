@@ -168,7 +168,7 @@ jobs:
           name: Add backend ip to ansible inventory
           command: |
             BACKEND_IP=$(aws ec2 describe-instances \
-            --query 'Reservations[*].Instances[*].PublicDnsName' \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --output text)
             echo "BACKEND_IP=${BACKEND_IP}"
@@ -258,7 +258,7 @@ jobs:
           name: Get backend url
           command: |
             BACKEND_IP=$(aws ec2 describe-instances \
-            --query 'Reservations[*].Instances[*].PublicDnsName' \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --output text)
             echo "BACKEND_IP=${BACKEND_IP}"
@@ -325,6 +325,7 @@ jobs:
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
+            pwd
             ls
             cp ./artifact.tar.gz .circleci/ansible/roles/deploy
             cd .circleci/ansible
@@ -363,7 +364,7 @@ jobs:
           command: |
             # Fetch and prepare the BACKEND_IP env var
             BACKEND_IP=$(aws ec2 describe-instances \
-            --query 'Reservations[*].Instances[*].PublicDnsName' \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --output text)
             echo "BACKEND_IP=${BACKEND_IP}"
