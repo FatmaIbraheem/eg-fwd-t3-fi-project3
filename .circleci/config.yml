@@ -282,46 +282,58 @@ jobs:
                     
   deploy-backend:
     docker:
-      # Docker image here that supports Ansible
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
-      # Checkout code from git
       - checkout
-      # Add ssh keys with fingerprint
+      - run:
+          name: Install AWS CLI v2
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+      - run:
+            name: Install dependencies
+            command: |
+              sudo apt update
+              sudo apt install openssh-server openssh-client
+      - run:
+          name: Install Ansible latest
+          command: |
+            sudo apt update
+            sudo apt install software-properties-common
+            sudo add-apt-repository --yes --update ppa:ansible/ansible
+            sudo apt install ansible
+            sudo apt install ansible -y
+      - run:
+          name: Install Node.js 
+          command: |
+            sudo apt update
+            sudo apt install nodejs npm
+            node --version 
+      
       - add_ssh_keys:
           fingerprints: ["79:fd:69:38:18:e9:3c:40:94:25:76:eb:96:8f:7b:25"]
-      # attach workspace
-      # to have access to the previously generated inventory.txt from the deploy-infrastructure job.
       - attach_workspace:
           at: ~/
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update tar gzip curl
-            pip install awscli
-            apk add --update ansible 
-            apk add --update nodejs npm
+      - restore_cache:
+          keys: [backend-deps]
       - run:
           name: Deploy backend
           command: |
             cd backend
-            ls
-            npm i
+            npm install
             npm run build
             cd ..
-            # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
             ls
-            mkdir -p ~/project/.circleci/ansible/roles/deploy/files/
-            mv artifact.tar.gz .circleci/ansible/roles/deploy/files
+            cp ./artifact.tar.gz .circleci/ansible/roles/deploy
             cd .circleci/ansible
-            echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-            # Here's where you will add some code to rollback on failure
-      - revert-migrations
-      # - destroy-environment:
+      # - revert-migrations:
       #     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      # - destroy-environment:
+      #     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7} 
 
   smoke-test:
     docker:
