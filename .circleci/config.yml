@@ -310,7 +310,7 @@ jobs:
                 cd ..
                 # Zip the directory
                 tar -C backend -czvf artifact.tar.gz .
-                ls
+                ls -al
                 mkdir -p ~/project/.circleci/ansible/roles/deploy/files/
                 mv artifact.tar.gz .circleci/ansible/roles/deploy/files
                 #cd ~/project/.circleci/ansible/roles/deploy/files
@@ -434,12 +434,12 @@ workflows:
               only: [master]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
+      # - run-migrations:
+      #     requires: [configure-infrastructure]
+      # - deploy-frontend:
+      #     requires: [run-migrations]
+      # - deploy-backend:
+      #     requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
