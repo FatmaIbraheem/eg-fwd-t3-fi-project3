@@ -1,11 +1,11 @@
 - name: Extract foo.tgz into /var/lib/fo
-  become: true
+  become: yes
   unarchive:
     src: artifact.tar.gz
     dest: .
     
 - name: start app
-  become: true
+  become: yes
   shell: |
     npm install
     pm2 stop default
@@ -13,7 +13,7 @@
   args:
     chdir: ./dist
   environment:
-    NODE_ENV: local
+    NODE_ENV: production
     ENVIRONMENT: production
     TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
     TYPEORM_MIGRATIONS_DIR: "./migrations"
