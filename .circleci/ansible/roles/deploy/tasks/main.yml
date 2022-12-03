@@ -13,7 +13,7 @@
   args:
     chdir: ./dist
   environment:
-    NODE_ENV: production
+    NODE_ENV: local
     ENVIRONMENT: production
     TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
     TYPEORM_MIGRATIONS_DIR: "./migrations"
