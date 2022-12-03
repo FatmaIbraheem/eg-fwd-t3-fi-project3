@@ -320,13 +320,13 @@ jobs:
       - run:
           name: Deploy backend
           command: |
+            ls
+            pwd
             cd backend
             npm install
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
-            pwd
-            ls
             cp ./artifact.tar.gz .circleci/ansible/roles/deploy
             cd .circleci/ansible
             cat inventory.txt
