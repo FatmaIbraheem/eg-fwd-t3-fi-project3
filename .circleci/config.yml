@@ -192,7 +192,7 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["79:fd:69:38:18:e9:3c:40:94:25:76:eb:96:8f:7b:25"]
+          fingerprints: ["c3:fd:ec:ac:2f:4a:d6:84:37:41:f4:fa:09:1a:83:c6"]
       - attach_workspace:
           at: ~/
       - run:
@@ -289,7 +289,7 @@ jobs:
           - checkout
           # Add ssh keys with fingerprint
           - add_ssh_keys:
-              fingerprints: ["73:3b:70:db:85:76:0a:91:8d:3b:c3:35:81:15:63:c4"]
+              fingerprints: ["c3:fd:ec:ac:2f:4a:d6:84:37:41:f4:fa:09:1a:83:c6"]
           # attach workspace
           # to have access to the previously generated inventory.txt from the deploy-infrastructure job.
           - attach_workspace:
