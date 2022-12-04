@@ -28,8 +28,8 @@ Resources:
       InstanceType: t2.micro
       SecurityGroups:
         - Ref: InstanceSecurityGroup
-      KeyName: udacity-p3
-      ImageId: ami-0ee23bfc74a881de5
+      KeyName: udacity
+      ImageId: ami-061dbd1209944525c
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
