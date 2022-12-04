@@ -405,7 +405,7 @@ jobs:
           event: pass
           template: success_tagged_deploy_1
 
-cleanup:
+  cleanup:
     docker:
       # Docker image here
       - image: amazon/aws-cli
